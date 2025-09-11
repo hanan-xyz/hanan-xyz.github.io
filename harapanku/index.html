@@ -1,1 +1,20 @@
-
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Video Singkat</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main>
+    <h1>Video</h1>
+    <video id="video" controls preload="metadata" width="720" poster="poster.jpg" data-video-id="intro-001">
+      <source src="video.mp4" type="video/mp4" />
+      Browser tidak mendukung video HTML5.
+    </video>
+    <p id="status" aria-live="polite"></p>
+  </main>
+  <script src="script.js" defer></script>
+</body>
+</html>
