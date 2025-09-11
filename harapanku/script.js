@@ -1,5 +1,5 @@
 (() => {
-  const API_ENDPOINT = 'ENDPOINT-BACKEND-DISI'; // DIGANTI nanti!
+  const API_ENDPOINT = 'https://solid-goldfish-4jw6wv5wv4jvcq59v-3000.app.github.dev/track-play'; // DIGANTI nanti!
   const videoEl = document.getElementById('video');
   const statusEl = document.getElementById('status');
   let lastSentAt = 0, COOLDOWN_MS = 5000;
