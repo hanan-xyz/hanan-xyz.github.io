@@ -20,7 +20,7 @@ if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID || !ALLOWED_ORIGIN) {
 
 const app = express();
 
-app.set('trust proxy', true);
+app.set('trust proxy', 'loopback');
 app.use(helmet());
 app.use(cors({ origin: ALLOWED_ORIGIN, optionsSuccessStatus: 200 }));
 app.use(express.json({ limit: '10kb' }));
