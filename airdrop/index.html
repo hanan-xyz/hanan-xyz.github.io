@@ -1,0 +1,1881 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Panduan lengkap tentang airdrop cryptocurrency untuk pemula">
+    <title>Mengenal Airdrop di Dunia Kripto: Panduan Praktis untuk Pemula</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-blue: #1E88E5;
+            --secondary-teal: #00ACC1;
+            --accent-orange: #FF6F00;
+            --text-dark: #212121;
+            --text-light: #FFFFFF;
+            --bg-light: #F5F5F5;
+            --card-bg: #FFFFFF;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] {
+            --primary-blue: #42A5F5;
+            --secondary-teal: #26C6DA;
+            --accent-orange: #FF9800;
+            --text-dark: #E0E0E0;
+            --text-light: #121212;
+            --bg-light: #1E1E1E;
+            --card-bg: #2D2D2D;
+            --shadow: rgba(0, 0, 0, 0.3);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-light);
+            color: var(--text-dark);
+            overflow: hidden;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-teal) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-top: 5px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .presentation {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: none;
+            flex-direction: column;
+            padding: 60px 80px;
+            background: var(--card-bg);
+            opacity: 0;
+            transform: translateX(100%);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .slide.active {
+            display: flex;
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .slide.prev {
+            transform: translateX(-100%);
+        }
+
+        .slide-header {
+            margin-bottom: 30px;
+        }
+
+        .slide-title {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 10px;
+            line-height: 1.2;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .slide-subtitle {
+            font-size: 28px;
+            color: var(--secondary-teal);
+            font-weight: 400;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .slide-content {
+            flex: 1;
+            display: flex;
+            gap: 40px;
+            overflow-y: auto;
+            animation: fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .content-text {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .content-visual {
+            flex: 0 0 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .content-visual img {
+            max-width: 100%;
+            max-height: 450px;
+            object-fit: contain;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .content-visual img:hover {
+            transform: scale(1.05);
+        }
+
+        .definition-box {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-teal) 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            font-size: 22px;
+            line-height: 1.6;
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .analogy-box {
+            background: #FFF3E0;
+            border-left: 5px solid var(--accent-orange);
+            padding: 20px 25px;
+            font-size: 20px;
+            font-style: italic;
+            color: #E65100;
+            border-radius: 8px;
+        }
+
+        [data-theme="dark"] .analogy-box {
+            background: #3E2723;
+            color: #FFB74D;
+        }
+
+        .bullet-list {
+            list-style: none;
+            font-size: 26px;
+            line-height: 1.8;
+        }
+
+        .bullet-list li {
+            padding: 15px 0;
+            padding-left: 40px;
+            position: relative;
+            opacity: 0;
+            animation: slideInLeft 0.5s ease forwards;
+        }
+
+        .bullet-list li:nth-child(1) { animation-delay: 0.1s; }
+        .bullet-list li:nth-child(2) { animation-delay: 0.2s; }
+        .bullet-list li:nth-child(3) { animation-delay: 0.3s; }
+        .bullet-list li:nth-child(4) { animation-delay: 0.4s; }
+        .bullet-list li:nth-child(5) { animation-delay: 0.5s; }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .bullet-list li:before {
+            content: "●";
+            position: absolute;
+            left: 0;
+            color: var(--accent-orange);
+            font-size: 30px;
+        }
+
+        .steps-container {
+            display: flex;
+            gap: 30px;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .step-box {
+            flex: 1;
+            min-width: 200px;
+            background: var(--card-bg);
+            border: 3px solid var(--primary-blue);
+            border-radius: 12px;
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 4px 12px var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            opacity: 0;
+            animation: popIn 0.5s ease forwards;
+        }
+
+        .step-box:nth-child(1) { animation-delay: 0.1s; }
+        .step-box:nth-child(2) { animation-delay: 0.2s; }
+        .step-box:nth-child(3) { animation-delay: 0.3s; }
+
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .step-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px var(--shadow);
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: var(--primary-blue);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 700;
+            margin: 0 auto 20px;
+        }
+
+        .step-text {
+            font-size: 20px;
+            line-height: 1.5;
+            color: var(--text-dark);
+        }
+
+        .types-grid {
+            display: grid;
+            gap: 20px;
+        }
+
+        .type-item {
+            background: #F0F9FF;
+            border-left: 5px solid var(--secondary-teal);
+            padding: 20px 25px;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        [data-theme="dark"] .type-item {
+            background: #263238;
+        }
+
+        .type-item:hover {
+            transform: translateX(5px);
+        }
+
+        .type-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 8px;
+        }
+
+        .type-desc {
+            font-size: 18px;
+            color: var(--text-dark);
+            line-height: 1.5;
+        }
+
+        .example-card {
+            background: linear-gradient(135deg, #E3F2FD 0%, #E0F7FA 100%);
+            border: 2px solid var(--secondary-teal);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        [data-theme="dark"] .example-card {
+            background: linear-gradient(135deg, #1A237E 0%, #006064 100%);
+        }
+
+        .example-card:hover {
+            transform: scale(1.02);
+        }
+
+        .example-name {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 10px;
+        }
+
+        .example-detail {
+            font-size: 20px;
+            color: var(--text-dark);
+            margin: 5px 0;
+        }
+
+        .free-badge {
+            display: inline-block;
+            background: var(--accent-orange);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .tips-list {
+            list-style: none;
+            font-size: 24px;
+            line-height: 1.8;
+        }
+
+        .tips-list li {
+            padding: 15px 20px;
+            margin: 10px 0;
+            background: var(--card-bg);
+            border-left: 5px solid var(--accent-orange);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px var(--shadow);
+            opacity: 0;
+            animation: slideInLeft 0.5s ease forwards;
+        }
+
+        .tips-list li:nth-child(1) { animation-delay: 0.1s; }
+        .tips-list li:nth-child(2) { animation-delay: 0.2s; }
+        .tips-list li:nth-child(3) { animation-delay: 0.3s; }
+        .tips-list li:nth-child(4) { animation-delay: 0.4s; }
+        .tips-list li:nth-child(5) { animation-delay: 0.5s; }
+
+        .expectation-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .expectation-item {
+            background: var(--card-bg);
+            border-left: 5px solid var(--accent-orange);
+            border-radius: 8px;
+            padding: 20px 25px;
+            box-shadow: 0 2px 8px var(--shadow);
+            opacity: 0;
+            animation: slideInLeft 0.5s ease forwards;
+        }
+
+        .expectation-item:nth-child(1) { animation-delay: 0.1s; }
+        .expectation-item:nth-child(2) { animation-delay: 0.2s; }
+        .expectation-item:nth-child(3) { animation-delay: 0.3s; }
+        .expectation-item:nth-child(4) { animation-delay: 0.4s; }
+        .expectation-item:nth-child(5) { animation-delay: 0.5s; }
+
+        .expectation-main {
+            font-size: 24px;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .expectation-sub {
+            font-size: 20px;
+            color: #666;
+            padding-left: 35px;
+            line-height: 1.6;
+        }
+
+        [data-theme="dark"] .expectation-sub {
+            color: #B0B0B0;
+        }
+
+        .glossary-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .glossary-item {
+            background: var(--card-bg);
+            border-left: 4px solid var(--primary-blue);
+            border-radius: 8px;
+            padding: 18px 22px;
+            box-shadow: 0 2px 6px var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glossary-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .glossary-term {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .glossary-def {
+            font-size: 18px;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .glossary-def em {
+            color: var(--secondary-teal);
+            font-style: italic;
+            font-weight: 600;
+        }
+
+        /* Custom Scrollbar for Glossary */
+        .glossary-list {
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-blue) var(--bg-light);
+        }
+
+        .glossary-list::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .glossary-list::-webkit-scrollbar-track {
+            background: var(--bg-light);
+            border-radius: 10px;
+        }
+
+        .glossary-list::-webkit-scrollbar-thumb {
+            background: var(--primary-blue);
+            border-radius: 10px;
+        }
+
+        .glossary-list::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-teal);
+        }
+
+        .source-section {
+            margin-bottom: 30px;
+        }
+
+        .source-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 15px;
+        }
+
+        .telegram-list {
+            list-style: none;
+            font-size: 20px;
+        }
+
+        .telegram-list li {
+            padding: 15px;
+            margin: 10px 0;
+            background: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px var(--shadow);
+        }
+
+        .telegram-list a {
+            color: var(--secondary-teal);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .telegram-list a:hover {
+            text-decoration: underline;
+        }
+
+        .closing-message {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-teal) 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px var(--shadow);
+        }
+
+        .closing-message h3 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .closing-message p {
+            font-size: 24px;
+            margin: 15px 0;
+            line-height: 1.6;
+        }
+
+        /* Navigation Controls */
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .nav-btn {
+            width: 50px;
+            height: 50px;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px var(--shadow);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background: var(--secondary-teal);
+            transform: scale(1.1);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .fullscreen-btn, .theme-btn, .overview-btn {
+            background: var(--accent-orange);
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: rgba(0, 0, 0, 0.1);
+            z-index: 99;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-blue) 0%, var(--secondary-teal) 100%);
+            width: 10%;
+            transition: width 0.3s ease;
+        }
+
+        /* Slide Counter */
+        .slide-counter {
+            position: fixed;
+            top: 20px;
+            right: 30px;
+            background: var(--card-bg);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-dark);
+            box-shadow: 0 4px 12px var(--shadow);
+            z-index: 99;
+        }
+
+        /* Dots Indicator */
+        .dots-indicator {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            background: rgba(30, 136, 229, 0.3);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: var(--primary-blue);
+            transform: scale(1.3);
+        }
+
+        .dot:hover {
+            background: var(--secondary-teal);
+        }
+
+        /* Presenter Notes */
+        .presenter-notes {
+            position: fixed;
+            bottom: 100px;
+            left: 30px;
+            background: var(--card-bg);
+            padding: 15px 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px var(--shadow);
+            font-size: 14px;
+            color: var(--text-dark);
+            max-width: 500px;
+            z-index: 98;
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+            transition: all 0.3s ease;
+            border: 2px solid var(--primary-blue);
+        }
+
+        .presenter-notes.visible {
+            opacity: 0.95;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .presenter-notes:hover {
+            opacity: 1;
+        }
+
+        .presenter-notes strong {
+            color: var(--primary-blue);
+            display: inline-block;
+            margin-right: 5px;
+            font-size: 13px;
+        }
+
+        .notes-toggle {
+            background: var(--secondary-teal);
+        }
+
+        .pdf-btn {
+            background: #E53935;
+        }
+
+        .pdf-btn:hover:not(:disabled) {
+            background: #C62828;
+        }
+
+        /* PDF Loading Overlay */
+        .pdf-loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10001;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .pdf-loading.active {
+            display: flex;
+        }
+
+        .pdf-loading-text {
+            color: white;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .pdf-loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 6px solid rgba(255, 255, 255, 0.3);
+            border-top: 6px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .pdf-loading-progress {
+            color: white;
+            font-size: 18px;
+        }
+
+        /* Overview Panel */
+        .overview-panel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            display: none;
+            padding: 40px;
+            overflow-y: auto;
+        }
+
+        .overview-panel.active {
+            display: block;
+        }
+
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .overview-slide {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 15px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .overview-slide:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 24px var(--shadow);
+        }
+
+        .overview-slide.current {
+            border: 3px solid var(--accent-orange);
+        }
+
+        .overview-number {
+            background: var(--primary-blue);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .overview-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .overview-close {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--accent-orange);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .slide {
+                padding: 40px 40px;
+            }
+
+            .slide-title {
+                font-size: 36px;
+            }
+
+            .slide-subtitle {
+                font-size: 22px;
+            }
+
+            .content-visual {
+                flex: 0 0 300px;
+            }
+
+            .bullet-list {
+                font-size: 22px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .slide {
+                padding: 30px 20px;
+            }
+
+            .slide-title {
+                font-size: 28px;
+            }
+
+            .slide-subtitle {
+                font-size: 18px;
+            }
+
+            .slide-content {
+                flex-direction: column;
+            }
+
+            .content-visual {
+                flex: 1;
+                max-height: 300px;
+            }
+
+            .content-visual img {
+                max-height: 300px;
+            }
+
+            .bullet-list {
+                font-size: 18px;
+            }
+
+            .step-text {
+                font-size: 16px;
+            }
+
+            .navigation {
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .nav-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 20px;
+            }
+
+            .presenter-notes {
+                display: none;
+            }
+
+            .slide-counter {
+                top: 10px;
+                right: 10px;
+                font-size: 14px;
+                padding: 8px 15px;
+            }
+
+            .dots-indicator {
+                bottom: 80px;
+            }
+
+            .steps-container {
+                flex-direction: column;
+            }
+
+            .example-name {
+                font-size: 22px;
+            }
+
+            .example-detail {
+                font-size: 16px;
+            }
+
+            .closing-message h3 {
+                font-size: 24px;
+            }
+
+            .closing-message p {
+                font-size: 18px;
+            }
+
+            .expectation-main {
+                font-size: 20px;
+            }
+
+            .expectation-sub {
+                font-size: 17px;
+                padding-left: 30px;
+            }
+
+            .glossary-term {
+                font-size: 20px;
+            }
+
+            .glossary-def {
+                font-size: 17px;
+            }
+
+            .glossary-item {
+                padding: 16px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .slide {
+                padding: 20px 15px;
+            }
+
+            .slide-title {
+                font-size: 24px;
+            }
+
+            .slide-subtitle {
+                font-size: 16px;
+            }
+
+            .bullet-list {
+                font-size: 16px;
+            }
+
+            .definition-box {
+                font-size: 18px;
+                padding: 20px;
+            }
+
+            .expectation-main {
+                font-size: 18px;
+            }
+
+            .expectation-sub {
+                font-size: 15px;
+                padding-left: 25px;
+            }
+
+            .expectation-item {
+                padding: 15px 20px;
+            }
+
+            .glossary-term {
+                font-size: 18px;
+            }
+
+            .glossary-def {
+                font-size: 15px;
+            }
+
+            .glossary-item {
+                padding: 14px 18px;
+            }
+
+            .overview-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 10px;
+                padding: 20px;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            @page {
+                size: A4 landscape;
+                margin: 0;
+            }
+
+            body {
+                overflow: visible;
+                background: white;
+            }
+
+            .navigation,
+            .progress-container,
+            .slide-counter,
+            .dots-indicator,
+            .presenter-notes,
+            .overview-panel,
+            .pdf-loading,
+            .loading-screen {
+                display: none !important;
+            }
+
+            .presentation {
+                width: 100%;
+                height: auto;
+            }
+
+            .slide {
+                page-break-after: always;
+                page-break-inside: avoid;
+                position: relative !important;
+                display: flex !important;
+                opacity: 1 !important;
+                transform: none !important;
+                width: 100%;
+                height: 100vh;
+                min-height: 100vh;
+                max-height: 100vh;
+                padding: 40px 60px;
+                background: white !important;
+                color: #212121 !important;
+            }
+
+            .slide:last-child {
+                page-break-after: auto;
+            }
+
+            .slide-content {
+                display: flex;
+                overflow: visible;
+            }
+
+            .content-visual img {
+                max-height: 400px;
+                page-break-inside: avoid;
+            }
+
+            .glossary-list,
+            .slide-content > div {
+                overflow: visible !important;
+                max-height: none !important;
+            }
+
+            /* Ensure all text is dark for print */
+            .slide-title,
+            .slide-subtitle,
+            .bullet-list,
+            .tips-list,
+            .glossary-term,
+            .glossary-def,
+            .expectation-main,
+            .expectation-sub,
+            .type-desc,
+            .example-detail,
+            .source-title,
+            .closing-message {
+                color: #212121 !important;
+            }
+
+            .closing-message {
+                background: #E3F2FD !important;
+            }
+
+            .definition-box {
+                background: #E3F2FD !important;
+                color: #212121 !important;
+            }
+
+            .analogy-box {
+                background: #FFF3E0 !important;
+                color: #E65100 !important;
+            }
+        }
+
+        /* Accessibility */
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            margin: -1px;
+            padding: 0;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
+        /* Focus styles for keyboard navigation */
+        .nav-btn:focus,
+        .dot:focus,
+        .overview-slide:focus {
+            outline: 3px solid var(--accent-orange);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Slide Counter -->
+    <div class="slide-counter" id="slideCounter">1 / 12</div>
+
+    <!-- Main Presentation -->
+    <div class="presentation" role="main" aria-label="Presentasi Airdrop">
+        <!-- Slide 1: Cover -->
+        <div class="slide active" data-slide="1" role="article" aria-label="Slide 1">
+            <div class="slide-header">
+                <h1 class="slide-title">Mengenal Airdrop di Dunia Kripto</h1>
+                <p class="slide-subtitle">Panduan Praktis untuk Pemula</p>
+            </div>
+            <div class="slide-content">
+                <div class="content-visual">
+                    <img src="airdrop-cover.png" alt="Ilustrasi Airdrop Cryptocurrency">
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Apa itu Airdrop -->
+        <div class="slide" data-slide="2" role="article" aria-label="Slide 2">
+            <div class="slide-header">
+                <h2 class="slide-title">Apa itu Airdrop?</h2>
+            </div>
+            <div class="slide-content">
+                <div class="content-text">
+                    <div class="definition-box">
+                        <strong>Definisi:</strong> Airdrop adalah pembagian token atau cryptocurrency <strong>gratis</strong> dari sebuah project kepada komunitas atau pengguna tertentu sebagai strategi marketing atau reward.
+                    </div>
+                    <div class="analogy-box">
+                        💡 <strong>Analogi sederhana:</strong> Seperti toko baru yang bagi-bagi sampel gratis atau kupon untuk menarik pelanggan!
+                    </div>
+                </div>
+                <div class="content-visual">
+                    <img src="wallet-receive.png" alt="Wallet Menerima Token">
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Tujuan Airdrop -->
+        <div class="slide" data-slide="3" role="article" aria-label="Slide 3">
+            <div class="slide-header">
+                <h2 class="slide-title">Kenapa Project Buat Airdrop?</h2>
+            </div>
+            <div class="slide-content">
+                <div class="content-text">
+                    <ul class="bullet-list">
+                        <li><strong>Marketing & Awareness:</strong> Supaya makin banyak yang kenal project mereka</li>
+                        <li><strong>Community Building:</strong> Bangun komunitas yang solid dari awal</li>
+                        <li><strong>Decentralization:</strong> Distribusi token lebih merata ke banyak orang</li>
+                        <li><strong>Reward Early Users:</strong> Apresiasi untuk pengguna awal yang udah percaya</li>
+                    </ul>
+                </div>
+                <div class="content-visual">
+                    <img src="purpose-flow.png" alt="Alur Tujuan Airdrop">
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Cara Kerja -->
+        <div class="slide" data-slide="4" role="article" aria-label="Slide 4">
+            <div class="slide-header">
+                <h2 class="slide-title">Bagaimana Cara Kerjanya?</h2>
+            </div>
+            <div class="slide-content">
+                <div class="content-text">
+                    <div class="steps-container">
+                        <div class="step-box">
+                            <div class="step-number">1</div>
+                            <div class="step-text">Daftar dengan wallet address crypto kamu</div>
+                        </div>
+                        <div class="step-box">
+                            <div class="step-number">2</div>
+                            <div class="step-text">Selesaikan tugas yang diminta (follow, retweet, testing app, dll)</div>
+                        </div>
+                        <div class="step-box">
+                            <div class="step-number">3</div>
+                            <div class="step-text">Token dikirim otomatis ke wallet setelah diverifikasi</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-visual">
+                    <img src="3-steps.png" alt="3 Langkah Airdrop">
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Jenis-jenis Airdrop -->
+        <div class="slide" data-slide="5" role="article" aria-label="Slide 5">
+            <div class="slide-header">
+                <h2 class="slide-title">Jenis-jenis Airdrop</h2>
+            </div>
+            <div class="slide-content">
+                <div class="content-text">
+                    <div class="types-grid">
+                        <div class="type-item">
+                            <div class="type-title">💬 Yappers</div>
+                            <div class="type-desc">Kontribusi dan keaktifan di komunitas (buat konten, diskusi)</div>
+                        </div>
+                        <div class="type-item">
+                            <div class="type-title">📱 Social Media Task</div>
+                            <div class="type-desc">Follow, like, retweet, join grup Telegram/Discord</div>
+                        </div>
+                        <div class="type-item">
+                            <div class="type-title">💎 Retroactive</div>
+                            <div class="type-desc">Hadiah untuk pengguna lama dan loyal yang sudah pakai produk sebelum atau saat awal</div>
+                        </div>
+                        <div class="type-item">
+                            <div class="type-title">🧪 Testnet/Bounty</div>
+                            <div class="type-desc">Testing aplikasi, report bug, kontribusi project</div>
+                        </div>
+                        <div class="type-item">
+                            <div class="type-title">🌐 Node Runner</div>
+                            <div class="type-desc">Jalankan node blockchain sebagai validator</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Contoh Sukses -->
+        <div class="slide" data-slide="6" role="article" aria-label="Slide 6">
+            <div class="slide-header">
+                <h2 class="slide-title">Contoh Airdrop yang Sukses</h2>
+                <p class="slide-subtitle">Case studies dari project besar</p>
+            </div>
+            <div class="slide-content">
+                <div class="content-text">
+                    <div class="example-card">
+                        <div class="example-name">🦄 Uniswap (UNI)</div>
+                        <div class="example-detail">📦 <strong>400 UNI per user</strong></div>
+                        <div class="example-detail">💰 <strong>~$2,000 saat launch</strong></div>
+                        <span class="free-badge">FREE</span>
+                    </div>
+                    <div class="example-card">
+                        <div class="example-name">🔵 Arbitrum (ARB)</div>
+                        <div class="example-detail">📦 <strong>1.162 miliar token</strong></div>
+                        <div class="example-detail">👥 <strong>625,143 pengguna</strong></div>
+                        <span class="free-badge">FREE</span>
+                    </div>
+                    <div class="example-card">
+                        <div class="example-name">🔴 Optimism (OP)</div>
+                        <div class="example-detail">📦 <strong>5% total supply</strong></div>
+                        <div class="example-detail">👥 <strong>248,699 address</strong></div>
+                        <span class="free-badge">FREE</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Manfaat -->
+        <div class="slide" data-slide="7" role="article" aria-label="Slide 7">
+            <div class="slide-header">
+                <h2 class="slide-title">Manfaat Mengikuti Airdrop</h2>
+            </div>
+            <div class="slide-content">
+                <div class="content-text">
+                    <ul class="bullet-list">
+                        <li>💰 <strong>Token gratis tanpa modal</strong></li>
+                        <li>📈 <strong>Potensi untung kalau harga naik</strong></li>
+                        <li>🎓 <strong>Pengalaman belajar teknologi blockchain</strong></li>
+                        <li>👥 <strong>Dapat komunitas dan jaringan baru</strong></li>
+                    </ul>
+                </div>
+                <div class="content-visual">
+                    <img src="benefits-icon.png" alt="Manfaat Airdrop">
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Ekspektasi Realistis -->
+        <div class="slide" data-slide="8" role="article" aria-label="Slide 8">
+            <div class="slide-header">
+                <h2 class="slide-title">Ekspektasi Realistis</h2>
+                <p class="slide-subtitle">Pahami realita sebelum mulai</p>
+            </div>
+            <div class="slide-content">
+                <div class="content-text">
+                    <div class="expectation-list">
+                        <div class="expectation-item">
+                            <div class="expectation-main">🚫 <strong>Airdrop bukan jalan cepat jadi kaya</strong></div>
+                            <div class="expectation-sub">→ Jangan berharap bisa langsung kaya mendadak</div>
+                        </div>
+                        
+                        <div class="expectation-item">
+                            <div class="expectation-main">💸 <strong>Sebagian besar token nilainya sangat kecil</strong></div>
+                            <div class="expectation-sub">→ Kenyataannya, banyak yang bahkan tidak ada harganya</div>
+                        </div>
+                        
+                        <div class="expectation-item">
+                            <div class="expectation-main">📚 <strong>Nilai utamanya ada di pengalaman</strong></div>
+                            <div class="expectation-sub">→ Bisa belajar teknologi, melatih konsistensi, dan mengenal dunia kripto</div>
+                        </div>
+                        
+                        <div class="expectation-item">
+                            <div class="expectation-main">🎲 <strong>Peluang hadiah besar itu jarang sekali</strong></div>
+                            <div class="expectation-sub">→ Mirip undian: kesempatan kecil, tetap butuh usaha</div>
+                        </div>
+                        
+                        <div class="expectation-item">
+                            <div class="expectation-main">❌ <strong>Kadang tetap tidak lolos meski sudah ikut aturan</strong></div>
+                            <div class="expectation-sub">→ Syarat bisa berubah tiba‑tiba tanpa pemberitahuan</div>
+                        </div>
+                    </div>
+                    <div class="analogy-box" style="margin-top: 25px;">
+                        💡 <strong>Mindset yang benar:</strong> Treat airdrop sebagai "bonus" dari proses belajar crypto, bukan sebagai income utama!
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Risiko & Tips -->
+        <div class="slide" data-slide="9" role="article" aria-label="Slide 9">
+            <div class="slide-header">
+                <h2 class="slide-title">Risiko & Tips Aman</h2>
+            </div>
+            <div class="slide-content">
+                <div class="content-text">
+                    <ul class="tips-list">
+                        <li>⚠️ <strong>Waspada scam/penipuan</strong> - Cek kredibilitas project</li>
+                        <li>🚫 <strong>Jangan klik link sembarangan</strong> - Phishing banyak!</li>
+                        <li>🔒 <strong>Jangan berikan seed phrase wallet</strong> - PENTING!</li>
+                        <li>💼 <strong>Pakai wallet khusus untuk airdrop</strong> - Pisahkan dari aset utama</li>
+                        <li>✅ <strong>Cek reputasi project</strong> - Riset dulu sebelum ikut</li>
+                    </ul>
+                </div>
+                <div class="content-visual">
+                    <img src="security-warn.png" alt="Peringatan Keamanan">
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Sumber Info -->
+        <div class="slide" data-slide="10" role="article" aria-label="Slide 10">
+            <div class="slide-header">
+                <h2 class="slide-title">Sumber Info Airdrop Terbaru</h2>
+            </div>
+            <div class="slide-content">
+                <div class="content-text">
+                    <div class="source-section">
+                        <div class="source-title">📱 Channel Telegram:</div>
+                        <ul class="telegram-list">
+                            <li>
+                                <strong>AirdropFinder:</strong> 
+                                <a href="https://t.me/airdropfind" target="_blank" rel="noopener noreferrer">t.me/airdropfind</a>
+                            </li>
+                            <li>
+                                <strong>BeritaCryptoo:</strong> 
+                                <a href="https://t.me/BeritaCryptoo" target="_blank" rel="noopener noreferrer">t.me/BeritaCryptoo</a>
+                            </li>
+                            <li>
+                                <strong>Atom Research:</strong> 
+                                <a href="https://t.me/atoms_research" target="_blank" rel="noopener noreferrer">t.me/atoms_research</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="source-section">
+                        <div class="source-title">🌐 Sumber Lain:</div>
+                        <ul class="bullet-list" style="font-size: 22px;">
+                            <li>Twitter/X (follow project resmi)</li>
+                            <li>Discord komunitas</li>
+                            <li>CoinMarketCap Airdrops</li>
+                            <li>CoinGecko</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Daftar Istilah Crypto -->
+        <div class="slide" data-slide="11" role="article" aria-label="Slide 11">
+            <div class="slide-header">
+                <h2 class="slide-title">📚 Daftar Istilah Crypto untuk Pemula</h2>
+            </div>
+            <div class="slide-content">
+                <div class="content-text" style="max-height: calc(100vh - 250px); overflow-y: auto; padding-right: 20px;">
+                    <div class="glossary-list">
+                        <div class="glossary-item">
+                            <div class="glossary-term">💼 Wallet</div>
+                            <div class="glossary-def">Dompet digital yang berfungsi menyimpan aset crypto. Dari sini kamu bisa mengirim, menerima, dan mengelola token. Ada dua jenis utama: <em>hot wallet</em> (terhubung internet, praktis tapi lebih rawan) dan <em>cold wallet</em> (offline, lebih aman).</div>
+                        </div>
+
+                        <div class="glossary-item">
+                            <div class="glossary-term">🔑 Seed Phrase</div>
+                            <div class="glossary-def">Kumpulan kata rahasia (biasanya 12–24 kata) yang jadi "master key" untuk membuka wallet. Kalau hilang, kamu bisa kehilangan akses selamanya. Jadi, simpan baik-baik dan jangan pernah bagikan.</div>
+                        </div>
+
+                        <div class="glossary-item">
+                            <div class="glossary-term">🔐 Private Key</div>
+                            <div class="glossary-def">Kode unik berupa angka/huruf panjang yang berfungsi sebagai kunci untuk mengontrol wallet. Bisa dianggap seperti PIN super rahasia. Bedanya, kalau orang lain tahu private key kamu, mereka bisa langsung ambil asetmu.</div>
+                        </div>
+
+                        <div class="glossary-item">
+                            <div class="glossary-term">🔄 DEX (Decentralized Exchange)</div>
+                            <div class="glossary-def">Platform tukar crypto tanpa perantara, transaksi langsung antar pengguna lewat smart contract. Contoh: Uniswap, PancakeSwap. Keunggulannya: lebih transparan dan kamu tetap pegang kendali penuh atas asetmu.</div>
+                        </div>
+
+                        <div class="glossary-item">
+                            <div class="glossary-term">🏢 CEX (Centralized Exchange)</div>
+                            <div class="glossary-def">Platform tukar crypto yang dikelola perusahaan (contoh: Binance, Coinbase). Lebih mudah digunakan, biasanya punya fitur lengkap, tapi asetmu dititipkan ke pihak ketiga sehingga ada risiko kalau platform bermasalah.</div>
+                        </div>
+
+                        <div class="glossary-item">
+                            <div class="glossary-term">⏰ Vesting</div>
+                            <div class="glossary-def">Sistem pelepasan token secara bertahap sesuai jadwal. Misalnya, investor atau tim proyek tidak langsung menerima semua token sekaligus, tapi sedikit demi sedikit. Tujuannya: menjaga harga token tetap stabil dan mencegah "dump" besar-besaran.</div>
+                        </div>
+
+                        <div class="glossary-item">
+                            <div class="glossary-term">⛽ Gas Fee</div>
+                            <div class="glossary-def">Biaya transaksi yang dibayar ke jaringan blockchain agar transaksi diproses. Besarnya tergantung seberapa ramai jaringan saat itu. Misalnya di Ethereum, gas fee bisa naik saat banyak orang melakukan transaksi bersamaan.</div>
+                        </div>
+
+                        <div class="glossary-item">
+                            <div class="glossary-term">🎉 TGE (Token Generation Event)</div>
+                            <div class="glossary-def">Momen resmi saat sebuah proyek crypto pertama kali merilis tokennya ke publik atau investor. Biasanya jadi tonggak penting karena menandai dimulainya ekosistem token tersebut.</div>
+                        </div>
+
+                        <div class="glossary-item">
+                            <div class="glossary-term">🔍 DYOR (Do Your Own Research)</div>
+                            <div class="glossary-def">Prinsip dasar di dunia crypto: jangan asal ikut-ikutan. Selalu lakukan riset sendiri sebelum membeli atau berinvestasi, karena risiko di crypto cukup tinggi.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Penutup -->
+        <div class="slide" data-slide="12" role="article" aria-label="Slide 12">
+            <div class="slide-header">
+                <h2 class="slide-title">Penutup & Motivasi</h2>
+            </div>
+            <div class="slide-content">
+                <div class="content-text">
+                    <div class="closing-message">
+                        <h3>🚀 Mulai Perjalanan Crypto Anda!</h3>
+                        <p>✅ Airdrop = peluang pemula masuk ke dunia crypto</p>
+                        <p>🔒 Utamakan keamanan wallet</p>
+                        <p>📚 Mulai belajar & ikut secara cerdas</p>
+                        <p>🧠 Jangan tergesa-gesa, lakukan riset</p>
+                    </div>
+                </div>
+                <div class="content-visual">
+                    <img src="closing-door.png" alt="Penutup">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dots Indicator -->
+    <div class="dots-indicator" role="navigation" aria-label="Navigasi Slide">
+        <div class="dot active" onclick="goToSlide(0)" role="button" aria-label="Slide 1" tabindex="0"></div>
+        <div class="dot" onclick="goToSlide(1)" role="button" aria-label="Slide 2" tabindex="0"></div>
+        <div class="dot" onclick="goToSlide(2)" role="button" aria-label="Slide 3" tabindex="0"></div>
+        <div class="dot" onclick="goToSlide(3)" role="button" aria-label="Slide 4" tabindex="0"></div>
+        <div class="dot" onclick="goToSlide(4)" role="button" aria-label="Slide 5" tabindex="0"></div>
+        <div class="dot" onclick="goToSlide(5)" role="button" aria-label="Slide 6" tabindex="0"></div>
+        <div class="dot" onclick="goToSlide(6)" role="button" aria-label="Slide 7" tabindex="0"></div>
+        <div class="dot" onclick="goToSlide(7)" role="button" aria-label="Slide 8" tabindex="0"></div>
+        <div class="dot" onclick="goToSlide(8)" role="button" aria-label="Slide 9" tabindex="0"></div>
+        <div class="dot" onclick="goToSlide(9)" role="button" aria-label="Slide 10" tabindex="0"></div>
+        <div class="dot" onclick="goToSlide(10)" role="button" aria-label="Slide 11" tabindex="0"></div>
+        <div class="dot" onclick="goToSlide(11)" role="button" aria-label="Slide 12" tabindex="0"></div>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="navigation" role="navigation" aria-label="Kontrol Presentasi">
+        <button class="nav-btn" id="prevBtn" onclick="previousSlide()" aria-label="Slide Sebelumnya" title="Previous (Arrow Left)">‹</button>
+        <button class="nav-btn" id="nextBtn" onclick="nextSlide()" aria-label="Slide Berikutnya" title="Next (Arrow Right)">›</button>
+        <button class="nav-btn overview-btn" onclick="toggleOverview()" aria-label="Tampilkan Overview" title="Overview (O)">⊞</button>
+        <button class="nav-btn notes-toggle" onclick="toggleNotes()" aria-label="Toggle Presenter Notes" title="Notes (N)">📝</button>
+        <button class="nav-btn pdf-btn" onclick="downloadPDF()" aria-label="Download PDF" title="Download PDF (P)">📄</button>
+        <button class="nav-btn theme-btn" onclick="toggleTheme()" aria-label="Toggle Dark Mode" title="Toggle Theme (T)">◐</button>
+        <button class="nav-btn fullscreen-btn" onclick="toggleFullscreen()" aria-label="Toggle Fullscreen" title="Fullscreen (F)">⛶</button>
+    </div>
+
+    <!-- Presenter Notes -->
+    <div class="presenter-notes" id="presenterNotes" role="complementary" aria-label="Catatan Presenter">
+        <strong>📝 Catatan:</strong> 
+        <span id="notesText">Selamat datang di presentasi tentang airdrop cryptocurrency. Hari ini kita akan membahas cara mendapatkan token gratis dari project crypto.</span>
+    </div>
+
+    <!-- Overview Panel -->
+    <div class="overview-panel" id="overviewPanel" role="dialog" aria-label="Overview Slide">
+        <button class="overview-close" onclick="toggleOverview()" aria-label="Tutup Overview">×</button>
+        <div class="overview-grid" id="overviewGrid"></div>
+    </div>
+
+    <!-- PDF Loading Overlay -->
+    <div class="pdf-loading" id="pdfLoading">
+        <div class="pdf-loading-spinner"></div>
+        <div class="pdf-loading-text">Print to PDF</div>
+        <div class="pdf-loading-progress" id="pdfProgress">Mempersiapkan...</div>
+    </div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+        const totalSlides = slides.length;
+        let currentSlide = 0;
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        const presenterNotes = [
+            "Selamat datang di presentasi tentang airdrop cryptocurrency. Hari ini kita akan membahas cara mendapatkan token gratis dari project crypto.",
+            "Airdrop adalah peluang gratisan di dunia kripto, project kasih token gratis sebagai promo ataupun reward komunitas.",
+            "Project lakukan airdrop agar makin dikenal, komunitasnya besar, dan pengguna pertamanya mendapat penghargaan.",
+            "Biasanya kita perlu daftar wallet, ikuti tugas social atau testing, lalu project kirim token ke wallet setelah diverifikasi.",
+            "Tiap jenis airdrop punya cara ikut berbeda, dari tugas interaksi sosial hingga menjalankan blockchain.",
+            "Uniswap, Arbitrum, dan Optimism pernah bagi token gratis ke ribuan pengguna—banyak yang langsung untung besar!",
+            "Airdrop bukan cuma tentang 'dapat gratisan', tapi juga tentang belajar teknologi dan dapat komunitas baru.",
+            "Jangan sampai tergoda gratisan lalu jadi korban scam! Selalu pastikan keamanan wallet dan info project sebelum join.",
+            "PENTING! Atur ekspektasi dengan realistis. Airdrop bukan jalan pintas kaya, tapi peluang belajar dan bonus kecil jika beruntung.",
+            "Mau update peluang airdrop terbaru? Follow channel Telegram di atas, atau pantau Twitter dan page komunitas kripto.",
+            "Sebelum menutup, ini adalah daftar istilah penting yang perlu kalian pahami. Pelajari istilah-istilah dasar ini agar lebih mudah memahami dunia crypto.",
+            "Airdrop adalah pintu gratis ke dunia kripto, ambil peluangnya, pelajari cara aman, dan semoga sukses!"
+        ];
+
+        const slideTitles = [
+            "Mengenal Airdrop di Dunia Kripto",
+            "Apa itu Airdrop?",
+            "Kenapa Project Buat Airdrop?",
+            "Bagaimana Cara Kerjanya?",
+            "Jenis-jenis Airdrop",
+            "Contoh Airdrop yang Sukses",
+            "Manfaat Mengikuti Airdrop",
+            "Ekspektasi Realistis",
+            "Risiko & Tips Aman",
+            "Sumber Info Airdrop Terbaru",
+            "Daftar Istilah Crypto untuk Pemula",
+            "Penutup & Motivasi"
+        ];
+
+        // Initialize
+        function init() {
+            updateProgress();
+            updateCounter();
+            updateNotes();
+            updateButtons();
+            generateOverview();
+            
+            // Hide loading screen
+            setTimeout(() => {
+                document.getElementById('loadingScreen').classList.add('hidden');
+            }, 500);
+        }
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            slides[currentSlide].classList.add('prev');
+            dots[currentSlide].classList.remove('active');
+            
+            currentSlide = (n + totalSlides) % totalSlides;
+            
+            slides[currentSlide].classList.remove('prev');
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+            
+            updateProgress();
+            updateCounter();
+            updateNotes();
+            updateButtons();
+            updateOverview();
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                showSlide(currentSlide + 1);
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlide > 0) {
+                showSlide(currentSlide - 1);
+            }
+        }
+
+        function goToSlide(n) {
+            showSlide(n);
+        }
+
+        function updateProgress() {
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function updateCounter() {
+            document.getElementById('slideCounter').textContent = `${currentSlide + 1} / ${totalSlides}`;
+        }
+
+        function updateNotes() {
+            document.getElementById('notesText').textContent = presenterNotes[currentSlide];
+        }
+
+        function updateButtons() {
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+        }
+
+        // Theme Toggle
+        function toggleTheme() {
+            const body = document.body;
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        }
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.body.setAttribute('data-theme', savedTheme);
+
+        // Fullscreen Toggle
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        // Overview Panel
+        function generateOverview() {
+            const overviewGrid = document.getElementById('overviewGrid');
+            overviewGrid.innerHTML = '';
+            
+            slides.forEach((slide, index) => {
+                const overviewSlide = document.createElement('div');
+                overviewSlide.className = 'overview-slide';
+                if (index === currentSlide) {
+                    overviewSlide.classList.add('current');
+                }
+                overviewSlide.innerHTML = `
+                    <div class="overview-number">${index + 1}</div>
+                    <div class="overview-title">${slideTitles[index]}</div>
+                `;
+                overviewSlide.onclick = () => {
+                    goToSlide(index);
+                    toggleOverview();
+                };
+                overviewGrid.appendChild(overviewSlide);
+            });
+        }
+
+        function updateOverview() {
+            const overviewSlides = document.querySelectorAll('.overview-slide');
+            overviewSlides.forEach((slide, index) => {
+                if (index === currentSlide) {
+                    slide.classList.add('current');
+                } else {
+                    slide.classList.remove('current');
+                }
+            });
+        }
+
+        function toggleOverview() {
+            const panel = document.getElementById('overviewPanel');
+            panel.classList.toggle('active');
+        }
+
+        // Presenter Notes Toggle
+        function toggleNotes() {
+            const notes = document.getElementById('presenterNotes');
+            notes.classList.toggle('visible');
+            
+            // Save preference
+            const isVisible = notes.classList.contains('visible');
+            localStorage.setItem('notesVisible', isVisible);
+        }
+
+        // Load saved notes visibility
+        const savedNotesVisibility = localStorage.getItem('notesVisible') === 'true';
+        if (savedNotesVisibility) {
+            document.getElementById('presenterNotes').classList.add('visible');
+        }
+
+        // Print to PDF Function
+        function downloadPDF() {
+            const pdfLoading = document.getElementById('pdfLoading');
+            const progressText = document.getElementById('pdfProgress');
+            
+            // Show instructions
+            pdfLoading.classList.add('active');
+            progressText.innerHTML = `
+                <div style="text-align: center; max-width: 600px;">
+                    <div style="font-size: 28px; margin-bottom: 20px;">📄 Print to PDF</div>
+                    <div style="font-size: 18px; line-height: 1.8; margin-bottom: 20px;">
+                        Jendela print akan terbuka.<br>
+                        Pilih <strong>"Save as PDF"</strong> atau <strong>"Microsoft Print to PDF"</strong><br>
+                        sebagai printer destination.
+                    </div>
+                    <div style="font-size: 16px; color: #FFB74D;">
+                        💡 Tips: Gunakan layout <strong>Landscape</strong> untuk hasil terbaik
+                    </div>
+                </div>
+            `;
+            
+            // Wait a moment for user to read
+            setTimeout(() => {
+                // Prepare for print
+                document.body.classList.add('printing');
+                
+                // Make all slides visible for print
+                slides.forEach(slide => {
+                    slide.style.display = 'flex';
+                    slide.style.opacity = '1';
+                });
+                
+                // Trigger print dialog
+                window.print();
+                
+                // Cleanup after print dialog closes
+                setTimeout(() => {
+                    document.body.classList.remove('printing');
+                    
+                    // Restore slide visibility
+                    slides.forEach((slide, index) => {
+                        if (index !== currentSlide) {
+                            slide.style.display = 'none';
+                        }
+                    });
+                    
+                    pdfLoading.classList.remove('active');
+                }, 500);
+            }, 2000);
+        }
+
+        // Keyboard Navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                previousSlide();
+            } else if (e.key === 'f' || e.key === 'F') {
+                e.preventDefault();
+                toggleFullscreen();
+            } else if (e.key === 't' || e.key === 'T') {
+                e.preventDefault();
+                toggleTheme();
+            } else if (e.key === 'o' || e.key === 'O') {
+                e.preventDefault();
+                toggleOverview();
+            } else if (e.key === 'n' || e.key === 'N') {
+                e.preventDefault();
+                toggleNotes();
+            } else if (e.key === 'p' || e.key === 'P') {
+                e.preventDefault();
+                downloadPDF();
+            } else if (e.key === 'Escape') {
+                const panel = document.getElementById('overviewPanel');
+                if (panel.classList.contains('active')) {
+                    toggleOverview();
+                }
+            } else if (e.key >= '1' && e.key <= '9') {
+                const slideNum = parseInt(e.key) - 1;
+                if (slideNum < totalSlides) {
+                    goToSlide(slideNum);
+                }
+            } else if (e.key === '0') {
+                goToSlide(9); // Slide 10
+            } else if (e.key === '-' || e.key === '_') {
+                goToSlide(10); // Slide 11
+            }
+        });
+
+        // Touch Gestures for Mobile
+        document.querySelector('.presentation').addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.querySelector('.presentation').addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+            
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    // Swipe left - next slide
+                    nextSlide();
+                } else {
+                    // Swipe right - previous slide
+                    previousSlide();
+                }
+            }
+        }
+
+        // Click to advance (except on links and buttons)
+        document.querySelector('.presentation').addEventListener('click', (e) => {
+            if (!e.target.closest('a') && !e.target.closest('button')) {
+                // Click on right side = next, left side = previous
+                const clickX = e.clientX;
+                const windowWidth = window.innerWidth;
+                
+                if (clickX > windowWidth / 2) {
+                    nextSlide();
+                } else {
+                    previousSlide();
+                }
+            }
+        });
+
+        // Dots keyboard navigation
+        dots.forEach((dot, index) => {
+            dot.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    goToSlide(index);
+                }
+            });
+        });
+
+        // Initialize presentation
+        init();
+
+        // Auto-hide mouse cursor after inactivity
+        let mouseTimeout;
+        document.addEventListener('mousemove', () => {
+            document.body.style.cursor = 'default';
+            clearTimeout(mouseTimeout);
+            mouseTimeout = setTimeout(() => {
+                if (document.fullscreenElement) {
+                    document.body.style.cursor = 'none';
+                }
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
