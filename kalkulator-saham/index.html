@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kalkulator SL & TP Saham</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Kalkulator Stop Loss (SL) & Take Profit (TP) untuk saham Indonesia. Hitung otomatis berdasarkan Entry, Modal, Risk %, RRR, dan lot size. Gratis dan mudah digunakan!" />
+  <meta name="keywords" content="kalkulator saham, stop loss, take profit, trading saham, risk management, RRR, BEI" />
+  <meta name="author" content="Hanan" />
+  
+  <!-- Open Graph / Facebook / WhatsApp -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://yourdomain.com/" />
+  <meta property="og:title" content="Kalkulator SL & TP Saham Indonesia" />
+  <meta property="og:description" content="Hitung Stop Loss dan Take Profit otomatis untuk trading saham. Termasuk perhitungan risk, RRR, break-even, dan biaya transaksi." />
+  <meta property="og:image" content="https://i.ibb.co.com/1fyycNxJ/20251220-141424.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://yourdomain.com/" />
+  <meta name="twitter:title" content="Kalkulator SL & TP Saham Indonesia" />
+  <meta name="twitter:description" content="Hitung Stop Loss dan Take Profit otomatis untuk trading saham. Termasuk perhitungan risk, RRR, break-even, dan biaya transaksi." />
+  <meta name="twitter:image" content="https://i.ibb.co.com/1fyycNxJ/20251220-141424.png" />
+  
+  <!-- Favicon (using emoji as quick solution) -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📈</text></svg>" />
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #111827;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --accent: #38bdf8;
+      --danger: #f87171;
+      --success: #34d399;
+      --border: #1f2937;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: var(--bg); color: var(--text);
+      font: 14px/1.6 system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+    }
+    .wrap {
+      max-width: 960px; margin: 24px auto; padding: 0 16px;
+    }
+    header { margin-bottom: 16px; }
+    h1 {
+      font-size: 20px; margin: 0 0 4px; color: var(--text);
+    }
+    p.lead { margin: 0; color: var(--muted); }
+    .grid {
+      display: grid; gap: 12px;
+      grid-template-columns: repeat(12, 1fr);
+    }
+    .card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 16px;
+    }
+    .input-card { grid-column: span 7; }
+    .result-card { grid-column: span 5; }
+    @media (max-width: 860px) {
+      .input-card, .result-card { grid-column: span 12; }
+    }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    label { color: var(--muted); font-weight: 600; }
+    input[type="number"] {
+      width: 100%; padding: 10px 12px; border-radius: 8px;
+      border: 1px solid var(--border); background: #0b1220; color: var(--text);
+    }
+    input[type="checkbox"] { transform: scale(1.1); }
+    .inline { display: flex; align-items: center; gap: 10px; }
+    .hint { color: var(--muted); font-size: 12px; }
+    .result-grid {
+      display: grid; gap: 8px; grid-template-columns: 1fr 1fr;
+    }
+    .kv {
+      background: #0b1220; border: 1px solid var(--border);
+      border-radius: 10px; padding: 10px;
+    }
+    .kv .k { color: var(--muted); font-size: 12px; }
+    .kv .v { font-size: 16px; font-weight: 700; }
+    .v.success { color: var(--success); }
+    .v.danger { color: var(--danger); }
+    .actions { display: flex; gap: 8px; margin-top: 12px; }
+    button {
+      padding: 10px 14px; border-radius: 10px; border: 1px solid var(--border);
+      background: #0b1220; color: var(--text); cursor: pointer;
+    }
+    button.primary { background: var(--accent); color: #042434; border: none; }
+    .small { font-size: 12px; color: var(--muted); }
+    .sep { height: 1px; background: var(--border); margin: 12px 0; }
+    footer { margin-top: 12px; color: var(--muted); font-size: 12px; text-align: center; }
+    .note { font-size: 12px; color: var(--muted); margin-top: 8px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Kalkulator Stop Loss (SL) & Take Profit (TP)</h1>
+      <p class="lead">Hitung otomatis berdasarkan Entry, Modal, Risk %, RRR, dan lot. Output tetap kosong jika input belum lengkap.</p>
+    </header>
+
+    <div class="grid">
+      <section class="card input-card">
+        <div class="row">
+          <div class="field">
+            <label for="entry">Entry price (Rp per lembar)</label>
+            <input id="entry" type="number" inputmode="decimal" min="0" step="0.01" placeholder="contoh: 3354" />
+            <span class="hint">Harga beli per lembar saham.</span>
+          </div>
+          <div class="field">
+            <label for="modal">Modal (Rp)</label>
+            <input id="modal" type="number" inputmode="decimal" min="0" step="1" placeholder="contoh: 100000000" />
+            <span class="hint">Total modal yang dialokasikan untuk trade ini.</span>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="riskp">Risk percent (% dari modal)</label>
+            <input id="riskp" type="number" inputmode="decimal" min="0" max="100" step="0.01" placeholder="contoh: 1.5" />
+            <span class="hint">Berapa persen modal siap dirisikokan per trade (misal 1–2%).</span>
+          </div>
+          <div class="field">
+            <label for="rrr">RRR (Risk Reward Ratio, misal 3 untuk 1:3)</label>
+            <input id="rrr" type="number" inputmode="decimal" min="0" step="0.01" placeholder="contoh: 3" />
+            <span class="hint">Masukkan angka reward (3 berarti 1:3).</span>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="lot">Lot size</label>
+            <input id="lot" type="number" inputmode="numeric" min="1" step="1" value="100" />
+            <span class="hint">Standar BEI: 100 lembar per lot. Bisa disesuaikan.</span>
+          </div>
+          <div class="field">
+            <label for="fees" class="inline">
+              <input id="fees" type="checkbox" /> Sertakan biaya (beli 0,15%, jual 0,25%)
+            </label>
+            <span class="hint">Jika dicentang, ditampilkan BEP dan estimasi net SL/TP.</span>
+          </div>
+        </div>
+
+        <div class="sep"></div>
+
+        <div class="row">
+          <div class="field">
+            <label for="buyFee">Fee beli (%)</label>
+            <input id="buyFee" type="number" inputmode="decimal" min="0" step="0.01" value="0.15" />
+            <span class="hint small">Opsional, default 0.15.</span>
+          </div>
+          <div class="field">
+            <label for="sellFee">Fee jual (%)</label>
+            <input id="sellFee" type="number" inputmode="decimal" min="0" step="0.01" value="0.25" />
+            <span class="hint small">Opsional, default 0.25.</span>
+          </div>
+        </div>
+
+        <p class="note">Catatan: Shares dibulatkan ke kelipatan lot untuk menjaga realisme eksekusi.</p>
+      </section>
+
+      <section class="card result-card">
+        <div class="result-grid">
+          <div class="kv">
+            <div class="k">Lembar (dibulatkan)</div>
+            <div id="shares" class="v">—</div>
+          </div>
+          <div class="kv">
+            <div class="k">Lot</div>
+            <div id="lots" class="v">—</div>
+          </div>
+
+          <div class="kv">
+            <div class="k">Risk per trade (Rp)</div>
+            <div id="riskTrade" class="v danger">—</div>
+          </div>
+          <div class="kv">
+            <div class="k">Risk per share (Rp)</div>
+            <div id="riskShare" class="v danger">—</div>
+          </div>
+
+          <div class="kv">
+            <div class="k">Stop Loss (SL)</div>
+            <div id="sl" class="v danger">—</div>
+          </div>
+          <div class="kv">
+            <div class="k">Take Profit (TP)</div>
+            <div id="tp" class="v success">—</div>
+          </div>
+
+          <div class="kv">
+            <div class="k">Break-even (harga)</div>
+            <div id="bep" class="v">—</div>
+          </div>
+          <div class="kv">
+            <div class="k">Round-trip fee (%)</div>
+            <div id="rtfee" class="v">—</div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button id="copy" class="primary">Copy hasil</button>
+          <button id="reset">Reset</button>
+        </div>
+        <p id="copied" class="small" style="display:none;">✅ Hasil sudah disalin ke clipboard.</p>
+      </section>
+    </div>
+
+    <footer>© 2025 Kalkulator SL & TP. Made with ❤️ by hanan aka sinau.</footer>
+  </div>
+
+  <script>
+    const el = id => document.getElementById(id);
+    const fmt = (n, opts = {}) => {
+      if (n === null || n === undefined || Number.isNaN(n)) return "—";
+      const o = { maximumFractionDigits: 2, ...opts };
+      return new Intl.NumberFormat("id-ID", o).format(n);
+    };
+
+    const inputs = ["entry", "modal", "riskp", "rrr", "lot", "fees", "buyFee", "sellFee"]
+      .map(el);
+
+    function calc() {
+      const entry = parseFloat(el("entry").value);
+      const modal = parseFloat(el("modal").value);
+      const riskp = parseFloat(el("riskp").value);
+      const rrr = parseFloat(el("rrr").value);
+      const lotSize = Math.max(1, Math.floor(parseFloat(el("lot").value) || 0));
+      const useFees = el("fees").checked;
+      const buyFee = Math.max(0, parseFloat(el("buyFee").value) || 0) / 100;
+      const sellFee = Math.max(0, parseFloat(el("sellFee").value) || 0) / 100;
+
+      // Guard: if required inputs missing, clear outputs to maintain blank policy
+      const requiredOk = [entry, modal, riskp, rrr].every(v => typeof v === "number" && v > 0);
+      if (!requiredOk) {
+        ["shares", "lots", "riskTrade", "riskShare", "sl", "tp", "bep", "rtfee"].forEach(id => el(id).textContent = "—");
+        return;
+      }
+
+      const riskPercentDec = riskp / 100;
+      const rawShares = modal / entry;
+      const shares = Math.floor(rawShares / lotSize) * lotSize; // round down to lot multiple
+      const lots = shares / lotSize;
+
+      // If shares becomes 0 due to rounding, prevent division by zero and blank outputs
+      if (shares <= 0) {
+        ["shares", "lots", "riskTrade", "riskShare", "sl", "tp", "bep", "rtfee"].forEach(id => el(id).textContent = "—");
+        return;
+      }
+
+      const riskTrade = modal * riskPercentDec;
+      const riskShare = riskTrade / shares;
+      const sl = entry - riskShare;
+      const tp = entry + (riskShare * rrr);
+
+      // Fees and break-even
+      const roundTripFeePct = useFees ? (buyFee + sellFee) * 100 : 0;
+      const bep = useFees ? entry * (1 + (buyFee + sellFee)) : null;
+
+      // Render
+      el("shares").textContent = fmt(shares, { maximumFractionDigits: 0 });
+      el("lots").textContent = fmt(lots, { maximumFractionDigits: 0 });
+      el("riskTrade").textContent = fmt(riskTrade);
+      el("riskShare").textContent = fmt(riskShare);
+      el("sl").textContent = fmt(sl);
+      el("tp").textContent = fmt(tp);
+      el("rtfee").textContent = useFees ? fmt(roundTripFeePct) + " %" : "—";
+      el("bep").textContent = useFees ? fmt(bep) : "—";
+    }
+
+    inputs.forEach(i => {
+      const evt = i.type === "checkbox" ? "change" : "input";
+      i.addEventListener(evt, calc);
+    });
+
+    el("reset").addEventListener("click", () => {
+      ["entry","modal","riskp","rrr","lot"].forEach(id => el(id).value = "");
+      el("fees").checked = false;
+      el("buyFee").value = "0.15";
+      el("sellFee").value = "0.25";
+      calc();
+    });
+
+    el("copy").addEventListener("click", async () => {
+      const lines = [
+        `Entry: ${el("entry").value || "-"}`,
+        `Modal: ${el("modal").value || "-"}`,
+        `Risk %: ${el("riskp").value || "-"}`,
+        `RRR: ${el("rrr").value || "-"}`,
+        `Lot size: ${el("lot").value || "-"}`,
+        `Shares: ${el("shares").textContent}`,
+        `Lots: ${el("lots").textContent}`,
+        `Risk per trade: ${el("riskTrade").textContent}`,
+        `Risk per share: ${el("riskShare").textContent}`,
+        `SL: ${el("sl").textContent}`,
+        `TP: ${el("tp").textContent}`,
+        `Round-trip fee: ${el("rtfee").textContent}`,
+        `Break-even: ${el("bep").textContent}`
+      ].join("\n");
+      try {
+        await navigator.clipboard.writeText(lines);
+        el("copied").style.display = "block";
+        setTimeout(() => el("copied").style.display = "none", 1800);
+      } catch {
+        el("copied").textContent = "⚠️ Gagal menyalin. Pilih manual dan copy.";
+        el("copied").style.display = "block";
+        setTimeout(() => el("copied").style.display = "none", 2200);
+      }
+    });
+
+    // Initial render blank
+    calc();
+  </script>
+</body>
+</html>
