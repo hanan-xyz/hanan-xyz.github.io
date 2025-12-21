@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="300">
+    <meta name="description" content="Jurnal Trading Saham untuk mencatat, memantau, dan menganalisis transaksi saham secara detail. Menyediakan rekap modal, pembelian, penjualan, profit/loss, serta strategi trading untuk evaluasi performa.">
+    <meta name="keywords" content="jurnal trading, saham, stock trading, portfolio tracker, trading journal, analisis saham, profit loss, trading diary">
+    <meta name="author" content="hanan aka sinau">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Jurnal Saham | Real-Time Dashboard">
+    <meta property="og:description" content="Jurnal Trading Saham untuk mencatat, memantau, dan menganalisis transaksi saham secara detail. Menyediakan rekap modal, pembelian, penjualan, profit/loss, serta strategi trading untuk evaluasi performa.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://jurnalsaham.com">
+    <meta property="og:image" content="https://i.ibb.co.com/5hrFXxSL/20251222-061922.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="Jurnal Saham">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Jurnal Saham | Real-Time Dashboard">
+    <meta name="twitter:description" content="Jurnal Trading Saham untuk mencatat, memantau, dan menganalisis transaksi saham secara detail. Menyediakan rekap modal, pembelian, penjualan, profit/loss, serta strategi trading untuk evaluasi performa.">
+    <meta name="twitter:image" content="https://i.ibb.co.com/5hrFXxSL/20251222-061922.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%234F46E5' width='100' height='100' rx='20'/><path fill='white' d='M25 70L35 55L45 60L60 40L75 30' stroke='white' stroke-width='4' fill='none'/><circle fill='white' cx='35' cy='55' r='3'/><circle fill='white' cx='45' cy='60' r='3'/><circle fill='white' cx='60' cy='40' r='3'/></svg>"> 
+    <title>Jurnal Saham | Real-Time Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class' }
+        function toggleDarkMode() { document.documentElement.classList.toggle('dark'); }
+        
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(el => {
+                el.classList.remove('border-indigo-600', 'text-indigo-600', 'dark:text-indigo-400');
+                el.classList.add('border-transparent', 'text-slate-500');
+            });
+            
+            document.getElementById('tab-' + tabName).classList.remove('hidden');
+            event.currentTarget.classList.add('border-indigo-600', 'text-indigo-600', 'dark:text-indigo-400');
+            event.currentTarget.classList.remove('border-transparent', 'text-slate-500');
+        }
+
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
+    <style>
+        .iframe-container { position: relative; width: 100%; height: 600px; }
+        iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        .dark iframe { filter: invert(90%) hue-rotate(180deg) brightness(105%) contrast(85%); }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 font-sans text-slate-900 dark:text-slate-100 flex flex-col min-h-screen transition-colors duration-300">
+
+    <nav class="bg-white dark:bg-slate-800 shadow-sm border-b border-slate-200 dark:border-slate-700 px-8 py-5 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="bg-indigo-600 p-2 rounded-lg text-white shadow-lg shadow-indigo-200 dark:shadow-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path></svg>
+                </div>
+                <div>
+                    <h1 class="text-xl md:text-2xl font-extrabold tracking-tight dark:text-white">Jurnal Saham</h1>
+                    <p class="text-[10px] text-indigo-600 dark:text-indigo-400 font-bold uppercase tracking-widest">Real-Time Trading Log</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <button onclick="toggleDarkMode()" class="p-2 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">
+                    <svg class="w-5 h-5 dark:hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                    <svg class="w-5 h-5 hidden dark:block" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"></path></svg>
+                </button>
+                <a href="https://docs.google.com/spreadsheets/d/18tVin2mASnV8VhL8yb9_iBaOdC_EQnyIi1F-C6tV47g/copy" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-bold transition shadow-md flex items-center">
+                    <span>Copy Template</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto p-4 md:p-6 w-full flex-grow">
+        <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl border border-slate-200 dark:border-slate-700 overflow-hidden mb-12">
+            <div class="bg-slate-800 dark:bg-black px-6 py-3 flex justify-between items-center text-white">
+                <span class="text-xs font-mono uppercase tracking-widest opacity-70">LIVE_DASHBOARD_V1</span>
+                <span class="text-[10px] bg-green-500 px-2 py-0.5 rounded-full animate-pulse">SYNCING</span>
+            </div>
+            <div class="iframe-container">
+                <iframe src="https://docs.google.com/spreadsheets/d/1I3nfBEdzm7LKN3lFgc4WkZ5NGrjZtZ1QbN2mWkBO7IE/preview?rm=minimal&gid=74212632"></iframe>
+            </div>
+        </div>
+
+        <section class="max-w-5xl mx-auto space-y-8 pb-20">
+            <div class="text-center">
+                <h2 class="text-3xl font-black mb-2">Panduan Penggunaan</h2>
+                <p class="text-slate-500 dark:text-slate-400 text-sm">Pelajari cara membaca metrik pada setiap sheet</p>
+            </div>
+
+            <div class="flex border-b border-slate-200 dark:border-slate-700 overflow-x-auto scrollbar-hide">
+                <button onclick="switchTab('rekap')" class="tab-btn px-6 py-3 border-b-2 border-indigo-600 text-indigo-600 dark:text-indigo-400 font-bold text-sm transition-all whitespace-nowrap">Sheet REKAP</button>
+                <button onclick="switchTab('beli')" class="tab-btn px-6 py-3 border-b-2 border-transparent text-slate-500 font-bold text-sm transition-all whitespace-nowrap">Sheet BELI</button>
+                <button onclick="switchTab('jual')" class="tab-btn px-6 py-3 border-b-2 border-transparent text-slate-500 font-bold text-sm transition-all whitespace-nowrap">Sheet JUAL</button>
+            </div>
+
+            <div id="tab-rekap" class="tab-content space-y-8 animate-fadeIn">
+                <div class="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700">
+                    <h3 class="text-xl font-bold mb-4 flex items-center">
+                        <span class="bg-indigo-100 dark:bg-indigo-900/50 p-2 rounded-lg mr-3">🧾</span> Ringkasan Kinerja Trading Saham
+                    </h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">Bagian atas sheet menampilkan <strong>rekapitulasi performa keseluruhan</strong> dari aktivitas trading saham, mencakup modal, nilai investasi, keuntungan/kerugian, dan rasio keberhasilan. Berikut penjelasan tiap metrik:</p>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm divide-y dark:divide-slate-700">
+                            <thead><tr class="text-slate-400"> <th class="pb-3 px-2">Komponen</th> <th class="pb-3 px-2">Penjelasan</th> </tr></thead>
+                            <tbody class="divide-y dark:divide-slate-700 text-slate-600 dark:text-slate-300">
+                                <tr><td class="py-3 px-2 font-bold text-indigo-600 dark:text-indigo-400">Total Modal Awal</td><td class="py-3 px-2">Jumlah dana awal yang digunakan untuk trading.</td></tr>
+                                <tr><td class="py-3 px-2 font-bold text-indigo-600 dark:text-indigo-400">Nilai Pembelian Saham</td><td class="py-3 px-2">Total nilai saham yang telah dibeli.</td></tr>
+                                <tr><td class="py-3 px-2 font-bold text-indigo-600 dark:text-indigo-400">Nilai Investasi Saat Ini</td><td class="py-3 px-2">Nilai pasar terkini dari saham yang masih dimiliki.</td></tr>
+                                <tr><td class="py-3 px-2 font-bold text-indigo-600 dark:text-indigo-400">Laba/Rugi Belum Direalisasi</td><td class="py-3 px-2">Keuntungan/kerugian dari saham yang belum dijual.</td></tr>
+                                <tr><td class="py-3 px-2 font-bold text-indigo-600 dark:text-indigo-400">Laba/Rugi Realisasi</td><td class="py-3 px-2">Keuntungan/kerugian dari saham yang sudah dijual.</td></tr>
+                                <tr><td class="py-3 px-2 font-bold text-indigo-600 dark:text-indigo-400">Rata-rata Nilai Transaksi</td><td class="py-3 px-2">Rata-rata nilai dari setiap transaksi saham.</td></tr>
+                                <tr><td class="py-3 px-2 font-bold text-indigo-600 dark:text-indigo-400">Laba/Rugi Bersih (Modal)</td><td class="py-3 px-2">Persentase keuntungan bersih terhadap modal awal.</td></tr>
+                                <tr><td class="py-3 px-2 font-bold text-indigo-600 dark:text-indigo-400">Rasio Transaksi Untung</td><td class="py-3 px-2">Perbandingan total keuntungan terhadap total kerugian.</td></tr>
+                                <tr><td class="py-3 px-2 font-bold text-indigo-600 dark:text-indigo-400">Win Rate</td><td class="py-3 px-2">Persentase transaksi yang menghasilkan keuntungan.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700">
+                    <h3 class="text-xl font-bold mb-4 flex items-center">
+                        <span class="bg-indigo-100 dark:bg-indigo-900/50 p-2 rounded-lg mr-3">📊</span> Detail Per Saham
+                    </h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">Bagian bawah sheet berisi <strong>data per saham</strong> yang sedang atau pernah ditradingkan, lengkap dengan strategi yang digunakan. Penjelasan kolom:</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="p-4 bg-slate-50 dark:bg-slate-700/30 rounded-xl border border-transparent hover:border-indigo-500 transition-all">
+                            <p class="font-bold text-indigo-600 dark:text-indigo-400 text-sm mb-1">Nama Emiten</p>
+                            <p class="text-xs opacity-70">Kode saham perusahaan.</p>
+                        </div>
+                        <div class="p-4 bg-slate-50 dark:bg-slate-700/30 rounded-xl border border-transparent hover:border-indigo-500 transition-all">
+                            <p class="font-bold text-indigo-600 dark:text-indigo-400 text-sm mb-1">Lot Dimiliki</p>
+                            <p class="text-xs opacity-70">Jumlah lot yang dimiliki.</p>
+                        </div>
+                        <div class="p-4 bg-slate-50 dark:bg-slate-700/30 rounded-xl border border-transparent hover:border-indigo-500 transition-all">
+                            <p class="font-bold text-indigo-600 dark:text-indigo-400 text-sm mb-1">Harga Beli per Lembar</p>
+                            <p class="text-xs opacity-70">Harga beli per lembar saham.</p>
+                        </div>
+                        <div class="p-4 bg-slate-50 dark:bg-slate-700/30 rounded-xl border border-transparent hover:border-indigo-500 transition-all">
+                            <p class="font-bold text-indigo-600 dark:text-indigo-400 text-sm mb-1">Harga Pasar Saat Ini</p>
+                            <p class="text-xs opacity-70">Harga pasar terkini per lembar.</p>
+                        </div>
+                        <div class="p-4 bg-slate-50 dark:bg-slate-700/30 rounded-xl border border-transparent hover:border-indigo-500 transition-all">
+                            <p class="font-bold text-indigo-600 dark:text-indigo-400 text-sm mb-1">Nilai Pembelian Total</p>
+                            <p class="text-xs opacity-70">Total nilai pembelian saham.</p>
+                        </div>
+                        <div class="p-4 bg-slate-50 dark:bg-slate-700/30 rounded-xl border border-transparent hover:border-indigo-500 transition-all">
+                            <p class="font-bold text-indigo-600 dark:text-indigo-400 text-sm mb-1">Nilai Pasar Saat Ini</p>
+                            <p class="text-xs opacity-70">Total nilai pasar saham saat ini.</p>
+                        </div>
+                        <div class="p-4 bg-slate-50 dark:bg-slate-700/30 rounded-xl border border-transparent hover:border-indigo-500 transition-all">
+                            <p class="font-bold text-indigo-600 dark:text-indigo-400 text-sm mb-1">Persentase Laba/Rugi</p>
+                            <p class="text-xs opacity-70">Persentase keuntungan atau kerugian dari saham tersebut.</p>
+                        </div>
+                        <div class="p-4 bg-slate-50 dark:bg-slate-700/30 rounded-xl border border-transparent hover:border-indigo-500 transition-all">
+                            <p class="font-bold text-indigo-600 dark:text-indigo-400 text-sm mb-1">Strategi</p>
+                            <p class="text-xs opacity-70">Teknik analisis yang digunakan saat membeli saham (misalnya: Fibonacci, Order Block, Market Shift Structure, dll).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab-beli" class="tab-content hidden space-y-8 animate-fadeIn">
+                <div class="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700">
+                    <h3 class="text-xl font-bold mb-4 flex items-center text-green-600 dark:text-green-400">
+                        <span class="bg-green-100 dark:bg-green-900/50 p-2 rounded-lg mr-3">📥</span> Fungsi Sheet BELI
+                    </h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">Sheet ini berfungsi sebagai <strong>log transaksi pembelian saham</strong>, lengkap dengan data penjualan sebagian, sisa lot, dan kalkulasi profit/loss. Ini adalah pusat pencatatan yang mendetail untuk setiap emiten yang pernah dibeli, baik yang sudah dijual sebagian maupun yang masih dipegang.</p>
+                </div>
+
+                <div class="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700">
+                    <h3 class="text-xl font-bold mb-4 flex items-center text-green-600 dark:text-green-400">
+                        <span class="bg-green-100 dark:bg-green-900/50 p-2 rounded-lg mr-3">📊</span> Penjelasan Kolom
+                    </h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm divide-y dark:divide-slate-700">
+                            <thead><tr class="text-slate-400"> <th class="pb-3 px-2">Kolom</th> <th class="pb-3 px-2">Penjelasan</th> </tr></thead>
+                            <tbody class="divide-y dark:divide-slate-700 text-slate-600 dark:text-slate-300">
+                                <tr><td class="py-3 px-2 font-bold text-green-600 dark:text-green-400">Tanggal Pembelian</td><td class="py-3 px-2">Tanggal saat saham dibeli.</td></tr>
+                                <tr><td class="py-3 px-2 font-bold text-green-600 dark:text-green-400">Nama Emiten</td><td class="py-3 px-2">Kode saham perusahaan yang dibeli.</td></tr>
+                                <tr><td class="py-3 px-2 font-bold text-green-600 dark:text-green-400">Harga Beli per Lembar</td><td class="py-3 px-2">Harga beli per lembar saham.</td></tr>
+                                <tr><td class="py-3 px-2 font-bold text-green-600 dark:text-green-400">Jumlah Lot Dibeli</td><td class="py-3 px-2">Total lot yang dibeli (1 lot = 100 lembar).</td></tr>
+                                <tr><td class="py-3 px-2 font-bold text-green-600 dark:text-green-400">Harga Saat Ini</td><td class="py-3 px-2">Harga pasar terkini per lembar saham.</td></tr>
+                                <tr><td class="py-3 px-2 font-bold text-green-600 dark:text-green-400">Nilai Pembelian Total</td><td class="py-3 px-2">Total nilai pembelian (Harga Beli × Jumlah Lembar).</td></tr>
+                                <tr><td class="py-3 px-2 font-bold text-green-600 dark:text-green-400">Jumlah Lot Terjual</td><td class="py-3 px-2">Lot yang sudah dijual dari total pembelian.</td></tr>
+                                <tr><td class="py-3 px-2 font-bold text-green-600 dark:text-green-400">Nilai Penjualan Total</td><td class="py-3 px-2">Total hasil penjualan dari lot yang sudah dijual.</td></tr>
+                                <tr><td class="py-3 px-2 font-bold text-green-600 dark:text-green-400">Lot Tersisa</td><td class="py-3 px-2">Lot yang masih dimiliki (belum dijual).</td></tr>
+                                <tr><td class="py-3 px-2 font-bold text-green-600 dark:text-green-400">Nilai Beli Lot Tersisa</td><td class="py-3 px-2">Nilai pembelian dari lot yang tersisa.</td></tr>
+                                <tr><td class="py-3 px-2 font-bold text-green-600 dark:text-green-400">Nilai Pasar Lot Tersisa</td><td class="py-3 px-2">Nilai pasar terkini dari lot yang tersisa.</td></tr>
+                                <tr><td class="py-3 px-2 font-bold text-green-600 dark:text-green-400">PROFIT/LOSS</td><td class="py-3 px-2">Total keuntungan atau kerugian dari transaksi (gabungan realisasi dan belum direalisasi).</td></tr>
+                                <tr><td class="py-3 px-2 font-bold text-green-600 dark:text-green-400">Persentase Laba/Rugi</td><td class="py-3 px-2">Persentase profit/loss terhadap nilai pembelian.</td></tr>
+                                <tr><td class="py-3 px-2 font-bold text-green-600 dark:text-green-400">STATUS</td><td class="py-3 px-2">Status transaksi (OPEN berarti masih ada lot tersisa).</td></tr>
+                                <tr><td class="py-3 px-2 font-bold text-green-600 dark:text-green-400">W/L</td><td class="py-3 px-2">Win/Loss indikator: apakah transaksi menghasilkan keuntungan atau kerugian secara keseluruhan.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mt-6 p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
+                        <p class="text-sm text-slate-700 dark:text-slate-300"><strong>Sheet ini sangat berguna untuk:</strong></p>
+                        <ul class="mt-2 text-sm text-slate-600 dark:text-slate-400 space-y-1 list-disc list-inside">
+                            <li>Melacak performa tiap transaksi secara rinci.</li>
+                            <li>Mengetahui saham mana yang masih aktif (OPEN) dan mana yang sudah dijual penuh.</li>
+                            <li>Mengukur efektivitas strategi dan keputusan jual-beli.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab-jual" class="tab-content hidden space-y-8 animate-fadeIn">
+                <div class="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700">
+                    <h3 class="text-xl font-bold mb-4 flex items-center text-rose-600 dark:text-rose-400">
+                        <span class="bg-rose-100 dark:bg-rose-900/50 p-2 rounded-lg mr-3">📤</span> Fungsi Sheet JUAL
+                    </h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">Sheet ini mencatat <strong>transaksi penjualan saham</strong> yang telah dilakukan. Fokus utamanya adalah menghitung nilai penjualan bersih dan mencocokkan data penjualan dengan data pembelian sebelumnya. Ini berguna untuk:</p>
+                    <ul class="text-sm text-slate-600 dark:text-slate-400 space-y-1 list-disc list-inside mb-4">
+                        <li>Melacak kapan dan berapa saham dijual.</li>
+                        <li>Menghitung keuntungan atau kerugian dari penjualan.</li>
+                        <li>Menyusun histori transaksi untuk analisis strategi.</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700">
+                    <h3 class="text-xl font-bold mb-4 flex items-center text-rose-600 dark:text-rose-400">
+                        <span class="bg-rose-100 dark:bg-rose-900/50 p-2 rounded-lg mr-3">📊</span> Penjelasan Kolom
+                    </h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm divide-y dark:divide-slate-700">
+                            <thead><tr class="text-slate-400"> <th class="pb-3 px-2">Kolom</th> <th class="pb-3 px-2">Penjelasan</th> </tr></thead>
+                            <tbody class="divide-y dark:divide-slate-700 text-slate-600 dark:text-slate-300">
+                                <tr><td class="py-3 px-2 font-bold text-rose-600 dark:text-rose-400">Tanggal Penjualan</td><td class="py-3 px-2">Tanggal saat saham dijual.</td></tr>
+                                <tr><td class="py-3 px-2 font-bold text-rose-600 dark:text-rose-400">Tanggal Pembelian</td><td class="py-3 px-2">Tanggal saat saham tersebut dibeli.</td></tr>
+                                <tr><td class="py-3 px-2 font-bold text-rose-600 dark:text-rose-400">Nama Emiten</td><td class="py-3 px-2">Kode saham perusahaan yang dijual.</td></tr>
+                                <tr><td class="py-3 px-2 font-bold text-rose-600 dark:text-rose-400">Harga Beli per Lembar</td><td class="py-3 px-2">Harga beli per lembar saat pembelian.</td></tr>
+                                <tr><td class="py-3 px-2 font-bold text-rose-600 dark:text-rose-400">Harga Jual per Lembar</td><td class="py-3 px-2">Harga jual per lembar saat penjualan.</td></tr>
+                                <tr><td class="py-3 px-2 font-bold text-rose-600 dark:text-rose-400">Jumlah Lot Terjual</td><td class="py-3 px-2">Jumlah lot yang dijual dalam transaksi ini.</td></tr>
+                                <tr><td class="py-3 px-2 font-bold text-rose-600 dark:text-rose-400">Nilai Penjualan Bersih</td><td class="py-3 px-2">Total hasil penjualan (Harga Jual × Jumlah Lembar).</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mt-6 p-4 bg-rose-50 dark:bg-rose-900/20 rounded-lg border border-rose-200 dark:border-rose-800">
+                        <p class="text-sm text-slate-700 dark:text-slate-300"><strong>Sheet ini sangat penting untuk:</strong></p>
+                        <ul class="mt-2 text-sm text-slate-600 dark:text-slate-400 space-y-1 list-disc list-inside">
+                            <li>Menghitung <strong>realisasi keuntungan/kerugian</strong> dari saham yang sudah dijual.</li>
+                            <li>Menyusun histori penjualan untuk analisis strategi dan waktu jual.</li>
+                            <li>Menyediakan data pendukung untuk Sheet REKAP dan Sheet BELI.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="py-10 border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Made with ❤️ by <span class="text-indigo-600 dark:text-indigo-400 font-bold underline">hanan aka sinau</span></p>
+            <p class="text-[9px] text-slate-400 mt-2 uppercase tracking-[0.2em]">© 2025 Jurnal Trading Saham</p>
+        </div>
+    </footer>
+
+    <style>
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fadeIn { animation: fadeIn 0.3s ease-out forwards; }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+    </style>
+</body>
+</html>
